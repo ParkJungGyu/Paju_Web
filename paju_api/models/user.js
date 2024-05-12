@@ -1,20 +1,20 @@
-const { Sequelize, DataTypes  } = require("sequelize");
-require('dotenv').config();
-const sequelize = new Sequelize(process.env.DBNAME, process.env.DBUSER, process.env.DBPWD, {
-    host : process.env.DBHOST,
-    dialect : process.env.DIALECT
-  });
+const { Sequelize, DataTypes } = require('sequelize');
 
-  sequelize.authenticate()
-  .then(() => {
-    console.log('데이터베이스에 연결되었습니다.');
-  })
-  .catch(err => {
-    console.error('데이터베이스 연결에 실패했습니다:', err);
+const sequelize = new Sequelize('paju', 'admin', '12332141', {
+    host : 'paju-web.chpveeg6ishh.ap-northeast-2.rds.amazonaws.com',
+    dialect : 'mysql',
   });
+  
+  sequelize.authenticate()
+    .then(() => {
+      console.log('데이터베이스에 연결되었습니다.');
+    })
+    .catch(err => {
+      console.error('데이터베이스 연결에 실패했습니다:', err);
+    });
 
 //회원가입
-const User = sequelize.define('users', {
+const User = sequelize.define('User', {
     id : {
         type : DataTypes.STRING,
         primaryKey : true,
@@ -33,7 +33,8 @@ const User = sequelize.define('users', {
         allowNull : false
     }
 }, {
-    tableName : 'user_info_table',
-    timestamps: false // createdAt 및 updatedAt 칼럼 제거
+    tableName : 'users',
+    timestamps : false
 });
+
 module.exports = User;

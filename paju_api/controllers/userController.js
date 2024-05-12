@@ -2,7 +2,6 @@ const User = require('../models/user');
 
 exports.registerUser = async (req, res) => {
     try {
-        console.log(req.body);
         const { id, name, email, password } = req.body;
         const newUser = await User.create({
             id,
@@ -12,9 +11,9 @@ exports.registerUser = async (req, res) => {
         });
         res.status(201).json(newUser);
     }
-    catch (error) { // 에러 객체를 error 변수에 할당
-        console.log('등록 실패');
-        res.status(404).json({ message: '등록에 실패했습니다.', error }); // 에러 객체를 직접 사용
+    catch (error) {
+        console.log('등록 실패', error);
+        res.status(404).json('등록에 실패했습니다.');
     }
 };
 
@@ -38,7 +37,7 @@ exports.loginUser = async (req, res) => {
 
         res.status(200).json({ message : '로그인 성공', user : user });
     }
-    catch {
+    catch (error) {
         console.log('로그인 실패');
         res.status(500),json({ error : '로그인에 실패했습니다.' });
     }
